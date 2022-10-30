@@ -1,6 +1,8 @@
 # Lakehouse MedIKal Care 
 
-The main goal of this portfolio is to demo how to create a Lakehouse using Azure services. This new architecture and data storage paradigm combines the characteristics of both data warehouses and data lakes to create a UNIFIED basis for all types of use cases to be built on top of it. **Delta protocol** is the key ingredient that will offer features that span all fours system, DW, DL, Streaming, and Machine Learning. We need to build our lakehouses upon four pillars, reliability, performance, governance, and quality; [Delta](https://delta.io/) is the perfect match for this use case.
+The main goal of this portfolio is to demo how to create a **Lakehouse** using Azure services. This new architecture and data storage paradigm combines the characteristics of both data warehouses and data lakes to create a **UNIFIED** basis for **all types of use cases** to be built on top of it.
+**Delta protocol** is the key ingredient that will offer features that span all fours system, DW, DL, Streaming, and Machine Learning. We need to build our lakehouses upon four pillars, reliability, performance, governance, and quality; [Delta](https://delta.io/) is the perfect match for this use case.
+
 ---
 # Meet the Company
 ![MedIKal_Care-removebg-preview](https://user-images.githubusercontent.com/62630272/198887790-cfe556eb-0d99-4981-98dd-cde69a50debc.png)
