@@ -5,8 +5,7 @@ The main goal of this portfolio is to demo how to create a Lakehouse using Azure
 # Meet the Company
 ![MedIKal_Care-removebg-preview](https://user-images.githubusercontent.com/62630272/198887790-cfe556eb-0d99-4981-98dd-cde69a50debc.png)
 
-MedIKal Care Healthcare is a private hospital that attends to a variety of patients from different countries, including Portugal, Germany, Brazil, Italy,French,USA,Mexico, and the United Kingdom. They have a large structure concerning, doctors, specialties, different shifts, distribution of medicines in their pharmacies.
-
+MedIKal Care Healthcare is a private hospital that attends to a variety of patients from different countries, including Portugal, Germany, Brazil, Italy,French, USA, Mexico, and the United Kingdom. They have a large structure concerning, doctors, specialties at different shifts and distribution of medicines in their pharmacies.
 # Demands from the Company
 The CEO aligned with the Head of IT would like to democratize access to the data for different personas once they have the correct privileges they can consume it.
 
@@ -16,7 +15,7 @@ The CEO aligned with the Head of IT would like to democratize access to the data
 - MySQL database
 - Postgres database
 > Both databases have a common name, called *ikhospital* and they said, all tables within this one, could be used to get insights.
-- A third data provider is about to be implemented, a streaming device in each pharmacy, which sends stream data regarding the distribution of medicines for their patients.
+- A third data provider is about to be implemented, a streaming device in each pharmacy, which sends stream data regarding the distribution of medicines for their patients. They asked to integrate the streaming data on the data lake.
 - Usage of Power BI to create reports/dashboards. Besides the Lakehouse, they would like to have a Global View of the hospital on the Power BI dashboard.
 - They use Azure as a cloud provider and they wanna keep it as it is.
 
