@@ -48,9 +48,9 @@ and security of human and veterinary drugs, biological products, and medical dev
   - Everything is available on the CSV files that I imported as an example.
  - The Tables are:
    - **Medicine**, contains the medicines coming from the [FDA](https://www.fda.gov/) API.
-   - **Events**, registers the events on the hospital.
-   - **Doctors** is a table containing all the doctors who works on MedIKal Care.
-   - **Shift**, the shift that hospital works.
-   - **Patient**, caontains all my registered patients.
+   - **Events**, register the events on the hospital.
+   - **Doctors** is a table containing all the doctors who work at MedIKal Care.
+   - **Shift**, the shift that the employees work.
+   - **Patient**, caontains all registered patients.
   - Streaming Device:
-    - Send data regarding the distribution of medicines to the patients.
+    - Sending data regarding the distribution of medicines to the patients.
