@@ -56,3 +56,28 @@ and security of human and veterinary drugs, biological products, and medical dev
     - Sending data regarding the distribution of medicines to the patients.
     > Example how the tables were generated:
     ![1 Generating data](https://user-images.githubusercontent.com/62630272/200128578-992df34f-888d-4d2d-9002-7d0c1e7f9231.gif)
+ 
+ ### All code mentioned above is on the repository.
+ 
+ ---
+# Depicting the Architecture on Azure from Left to the Right.
+## Data Ingestion
+### Eventhub Namespace / Topic Eventhub
+ - I used to ingest and use as a Input to Azure Stream Analytics.
+### Copy Data Activity
+ - Once the IT manager said to us, they used a common name to the database called *ikhospital* then I create the code to get all the tables from the databases and push to the ADLS Gen2.
+  - I used three parameters, *datasource_mysql*, *datasource_postgres* and *database* and these parameters I used to create the **Structure on Bronze container**. More about the structure on the next session, Storage Account.
+
+## Storage Account Gen2
+ - The Storage Account is the Object Storage which we use to create our **Lakehouse**
+ - I created three **containers**, bronze, silver and gold.
+ - Bronze container, we are going to land our data coming from the datasources, following the structure like that:
+   - *container/datasource/databaseORschema/tables* becoming that *bronze/mysql/ikhospital/tables*
+    - ![image](https://user-images.githubusercontent.com/62630272/200131332-23929a82-ea87-4182-a043-3a4783610360.png)
+ - Silver and Gold containers, I made an different approach, following the structure like that: 
+  - *container/databaseORschema/tables* becoming that *bronze/ikhospital/tables*
+    - ![image](https://user-images.githubusercontent.com/62630272/200131370-52e381ec-650b-4bf9-9ba5-b49561c614db.png)
+ > Keep in mind, we could create other options to structure the path inside the containers, adding partitions by YEAR,MONTH and DAY but for the sake of simplicity I utilized the general way. 
+
+
+ 
