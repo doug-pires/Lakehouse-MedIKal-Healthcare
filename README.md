@@ -73,6 +73,7 @@ and security of human and veterinary drugs, biological products, and medical dev
 ## Storage Account Gen2
  - The Storage Account is the Object Storage which we use to create our **Lakehouse**
  - I created three **containers**, bronze, silver and gold.
+  - - ![image](https://user-images.githubusercontent.com/62630272/200132993-f93adcb4-9aa5-41db-96f5-ed716271777d.png)
  - Bronze container, we are going to land our data coming from the datasources, following the structure like that:
    - *container/datasource/databaseORschema/tables* becoming that *bronze/mysql/ikhospital/tables*
     - ![image](https://user-images.githubusercontent.com/62630272/200131332-23929a82-ea87-4182-a043-3a4783610360.png)
@@ -92,6 +93,12 @@ and security of human and veterinary drugs, biological products, and medical dev
 ## Process Streaming
 - Azure Stream Analytics to process and send the data to a Power BI dataset. The demand was to get the distributed medicines on the current day, so the query needs to sum the number of medicines, grouped by NDC and day. The query made was that:
 ![image](https://user-images.githubusercontent.com/62630272/200132644-9d552b08-fa39-4337-8618-74fca848ddcd.png)
+
+## Serve Layer
+- The serving layer, the option was SQL Serverless Pool. We can create EXTERNAL TABLES or VIEWS on top of our data on the ADLS Gen2. To serve the data to Power BI, I created the database called *IKHOSPITAL_DW* then we can generate our table on that one.
+- To create the tables, we can use the UI of Synapse, navigate to ADLS Gen2, choose the table, right-click, and CREATE EXTERNAL TABLE. 
+- Second I created one Script to be more specific on the name of the EXTERNAL PROVIDERS, DATA SOURCES, and SCOPED CREDENTIAL, which you can use SAS, ACCESS KEYS, or MANAGED IDENTITY.
+ - ![image](https://user-images.githubusercontent.com/62630272/200133289-341e05d1-2ce9-4f93-b145-9e109a967ab6.png)
 
 
 
