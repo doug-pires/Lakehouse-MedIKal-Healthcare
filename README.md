@@ -55,4 +55,4 @@ and security of human and veterinary drugs, biological products, and medical dev
   - Streaming Device:
     - Sending data regarding the distribution of medicines to the patients.
     > Example how the tables were generated:
-     - ![1 Generating data](https://user-images.githubusercontent.com/62630272/200128578-992df34f-888d-4d2d-9002-7d0c1e7f9231.gif)
+    ![1 Generating data](https://user-images.githubusercontent.com/62630272/200128578-992df34f-888d-4d2d-9002-7d0c1e7f9231.gif)
