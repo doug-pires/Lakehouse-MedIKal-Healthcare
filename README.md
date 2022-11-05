@@ -77,16 +77,22 @@ and security of human and veterinary drugs, biological products, and medical dev
    - *container/datasource/databaseORschema/tables* becoming that *bronze/mysql/ikhospital/tables*
     - ![image](https://user-images.githubusercontent.com/62630272/200131332-23929a82-ea87-4182-a043-3a4783610360.png)
  - Silver and Gold containers, I made an different approach, following the structure like that: 
-  - *container/databaseORschema/tables* becoming that *bronze/ikhospital/tables*
+  - *container/databaseORschema/tables* becoming that *silverORgold/ikhospital/tables*
     - ![image](https://user-images.githubusercontent.com/62630272/200131370-52e381ec-650b-4bf9-9ba5-b49561c614db.png)
  > Keep in mind, we could create other options to structure the path inside the containers, adding partitions by YEAR,MONTH and DAY but for the sake of simplicity I utilized the general way. 
 
 ## Process Batch
-- For all the processing batches I used **Spark Pool** to make the minimum transformations and sink to the respective containers. The Synapse Notebooks, mostly part of the language was Pyspark and SQL.
+- For all the processing batches I used **Spark Pool** with small size (4 vCores / 32 GB) and 3 nodes to make the minimum transformations. Then sink to the respective containers. The Synapse Notebooks, mostly part of the language was Pyspark and SQL.
 - I created a CONFIGURATION notebook with the purpose to define my bases paths, datasources, and create the paths to bronze, silver and gold layer.
   - ![image](https://user-images.githubusercontent.com/62630272/200132110-986c4c54-53e4-4c3d-a300-4723f7f8e2fb.png)
 - I created one notebook with Functions to list tables on ADLS, read and save to my Datalake.
   - ![image](https://user-images.githubusercontent.com/62630272/200132237-5b3fb40e-1097-47cc-8881-a5ecd660bbb9.png)
+### I won't go into many details because all of the code is on this repo.
+
+## Process Streaming
+- Azure Stream Analytics to process and send the data to a Power BI dataset. The demand was to get the distributed medicines on the current day, so the query needs to sum the number of medicines, grouped by NDC and day. The query made was that:
+![image](https://user-images.githubusercontent.com/62630272/200132644-9d552b08-fa39-4337-8618-74fca848ddcd.png)
+
 
 
  
