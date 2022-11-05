@@ -88,6 +88,8 @@ and security of human and veterinary drugs, biological products, and medical dev
   - ![image](https://user-images.githubusercontent.com/62630272/200132110-986c4c54-53e4-4c3d-a300-4723f7f8e2fb.png)
 - I created one notebook with Functions to list tables on ADLS, read and save to my Datalake.
   - ![image](https://user-images.githubusercontent.com/62630272/200132237-5b3fb40e-1097-47cc-8881-a5ecd660bbb9.png)
+- Finally, we can chain the tasks, ingestion and curation in one single pipeline.
+ - ![image](https://user-images.githubusercontent.com/62630272/200135367-9d54d9e3-cd59-4955-b142-d34233bc81b0.png)
 ### I won't go into many details because all of the code is on this repo.
 
 ## Process Streaming
