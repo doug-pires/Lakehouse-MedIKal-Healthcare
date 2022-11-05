@@ -99,6 +99,14 @@ and security of human and veterinary drugs, biological products, and medical dev
 - To create the tables, we can use the UI of Synapse, navigate to ADLS Gen2, choose the table, right-click, and CREATE EXTERNAL TABLE. 
 - Second I created one Script to be more specific on the name of the EXTERNAL PROVIDERS, DATA SOURCES, and SCOPED CREDENTIAL, which you can use SAS, ACCESS KEYS, or MANAGED IDENTITY.
  - ![image](https://user-images.githubusercontent.com/62630272/200133289-341e05d1-2ce9-4f93-b145-9e109a967ab6.png)
+- To the Power BI Developer read the tables is necessary an user. Then I created one user called *PBI_Reader*, I gave the right credentials, GRANTS to SELECthe DATABASE *IKHOSPITAL_DW* and the user can get/query the tables on Power BI.
+  - ![image](https://user-images.githubusercontent.com/62630272/200133565-635a55d6-a30a-4cee-a7fc-4c8dc2aed1b2.png)
+
+## Analytics Layer
+- Having the user created, we can import our tables to Power BI and start create ANALYTICS on top of that tables.
+  - ![image](https://user-images.githubusercontent.com/62630272/200133683-ebd5c75c-f82d-49b4-a427-9badb1c3e53b.png)
+- We can use SQL Authentication OR AAD authentication.
+> Keep in mind, the tables are small that's why we choose *import mode*, however if we are discussing a large dataset, always a good idea thinking about other methods, like *Direct Query* with *Incremental refreshs*, since our data is stored as **Delta tables**
 
 
 
