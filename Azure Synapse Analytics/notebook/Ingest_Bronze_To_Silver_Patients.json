@@ -1,0 +1,296 @@
+{
+	"name": "Ingest_Bronze_To_Silver_Patients",
+	"properties": {
+		"folder": {
+			"name": "ikhospital Silver"
+		},
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "sparkdemo",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"runAsWorkspaceSystemIdentity": false,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "7e504b70-20ee-4bd6-a0e7-5d72718a6e76"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"synapse_widget": {
+				"version": "0.1"
+			},
+			"enableDebugMode": false,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "Synapse PySpark"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/65b4f7d2-d124-4803-a797-9d47b237de93/resourceGroups/rg-demo/providers/Microsoft.Synapse/workspaces/syn-demo-92/bigDataPools/sparkdemo",
+				"name": "sparkdemo",
+				"type": "Spark",
+				"endpoint": "https://syn-demo-92.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/sparkdemo",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net",
+					"authHeader": null
+				},
+				"sparkVersion": "3.2",
+				"nodeCount": 3,
+				"cores": 4,
+				"memory": 28,
+				"extraHeader": null
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"from pyspark.sql.types import *\r\n",
+					"import pyspark.sql.functions as F\r\n",
+					"import os\r\n",
+					"from notebookutils import mssparkutils\r\n",
+					"\r\n",
+					"# Primary storage info\r\n",
+					"account_name = 'stdemo92'\r\n",
+					"bronze_base_path = f'abfss://bronze@{account_name}.dfs.core.windows.net/'\r\n",
+					"silver_base_path = f'abfss://silver@{account_name}.dfs.core.windows.net/'\r\n",
+					"\r\n",
+					"# The Landing structure is datasource/schema/tables\r\n",
+					"# Could be partioned by DATE\r\n",
+					"datasources = [\"mysql\",\"postgres\"]\r\n",
+					"\r\n",
+					"# Databse in common\r\n",
+					"database = \"ikhospital\"\r\n",
+					"\r\n",
+					"# Path to my Bronze Tables\r\n",
+					"bronze_path_mysql = os.path.join(bronze_base_path,datasources[0],database)\r\n",
+					"bronze_path_postgres = os.path.join(bronze_base_path,datasources[1],database)\r\n",
+					"\r\n",
+					"\r\n",
+					"\r\n",
+					"# Path to the Silver Container, following the Structure Container/datasource/database/Delta Tables\r\n",
+					"silver_path = os.path.join(silver_base_path,database)\r\n",
+					"\r\n",
+					"\r\n",
+					"print(\"Base Bronze path :\", bronze_base_path )\r\n",
+					"print(\"Base Silver path :\", silver_base_path )\r\n",
+					""
+				],
+				"execution_count": 3
+			},
+			{
+				"cell_type": "markdown",
+				"metadata": {
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"# Read from Data lake on the Container Bronze our table Patients"
+				]
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"df_patients = (\r\n",
+					"    spark.read.format(\"parquet\")\r\n",
+					"    .load(bronze_path_mysql + \"/patient\")\r\n",
+					")\r\n",
+					"df_patients.cache()"
+				],
+				"execution_count": 4
+			},
+			{
+				"cell_type": "markdown",
+				"metadata": {
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"## Data Profiling using Summary method"
+				]
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"df_patients.summary().show()"
+				],
+				"execution_count": 5
+			},
+			{
+				"cell_type": "markdown",
+				"metadata": {
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"## Another way to da Data Profiling\r\n",
+					"- Use Pandas Profiling when is a small dataset and fits on single node\r\n",
+					"- Use spark-df-profiling on the large datasets"
+				]
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"pip install spark-df-profiling-new"
+				]
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"import spark_df_profiling\r\n",
+					"report = spark_df_profiling.ProfileReport(df_events)\r\n",
+					"report.get_description()"
+				]
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"df_patients.printSchema()"
+				],
+				"execution_count": 6
+			},
+			{
+				"cell_type": "markdown",
+				"metadata": {
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"# Save the table **Patients** on the Container Silver as a **Delta Table**"
+				]
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"( \r\n",
+					"df_patients.write.format(\"delta\")\r\n",
+					".mode(\"overwrite\")\r\n",
+					".save(silver_path+\"/patient\") \r\n",
+					"\r\n",
+					")"
+				],
+				"execution_count": 7
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					""
+				]
+			}
+		]
+	}
+}

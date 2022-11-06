@@ -1,0 +1,270 @@
+{
+	"name": "Ingest tables to Bronze Layer",
+	"properties": {
+		"activities": [
+			{
+				"name": "Get Schema and Table from MySQL",
+				"description": "Get Schema and tables from MySQL Database",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureMySqlSource",
+						"query": {
+							"value": "SELECT table_schema, table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_schema = '@{pipeline().parameters.database}'",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00"
+					},
+					"dataset": {
+						"referenceName": "Source_Dataset_MySql",
+						"type": "DatasetReference",
+						"parameters": {
+							"table_schema": "placeholder",
+							"table_name": "placeholder"
+						}
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "For Each table on MySQL save on ADLS",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Get Schema and Table from MySQL",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Get Schema and Table from MySQL').output.value",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Save table to ADLS",
+							"description": "",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "AzureMySqlSource",
+									"queryTimeout": "02:00:00"
+								},
+								"sink": {
+									"type": "ParquetSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "ParquetWriteSettings"
+									}
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "Source_Dataset_MySql",
+									"type": "DatasetReference",
+									"parameters": {
+										"table_schema": {
+											"value": "@{item().table_schema}",
+											"type": "Expression"
+										},
+										"table_name": {
+											"value": "@{item().table_name}",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "Dataset_Sink_Parquet",
+									"type": "DatasetReference",
+									"parameters": {
+										"table_schema": "@{item().table_schema}",
+										"table_name": "@{item().table_name}",
+										"datasource": {
+											"value": "@pipeline().parameters.mysql_datasource",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					]
+				}
+			},
+			{
+				"name": "Get Schema and Table from Postgres",
+				"description": "Get Schema and tables from MySQL Database",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzurePostgreSqlSource",
+						"query": {
+							"value": "SELECT table_catalog,table_schema,table_name FROM information_schema.tables WHERE table_catalog = '@{pipeline().parameters.database}' AND table_schema = 'pharmacy'",
+							"type": "Expression"
+						},
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "Source_Dataset_Postgres",
+						"type": "DatasetReference",
+						"parameters": {
+							"table_catalog": "placeholder",
+							"table_name": "placeholder",
+							"table_schema": "placeholder"
+						}
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "For each table on Postgres save on ADLS",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Get Schema and Table from Postgres",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Get Schema and Table from Postgres').output.value",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Save table from Postgres to ADLS",
+							"description": "",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "AzurePostgreSqlSource",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "ParquetSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "ParquetWriteSettings"
+									}
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "Source_Dataset_Postgres",
+									"type": "DatasetReference",
+									"parameters": {
+										"table_catalog": "@{item().table_catalog}",
+										"table_name": {
+											"value": "@{item().table_name}",
+											"type": "Expression"
+										},
+										"table_schema": "@{item().table_schema}"
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "Dataset_Sink_Parquet",
+									"type": "DatasetReference",
+									"parameters": {
+										"table_schema": "@{item().table_catalog}",
+										"table_name": "@{item().table_name}",
+										"datasource": {
+											"value": "@pipeline().parameters.postgres_datasource",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"mysql_datasource": {
+				"type": "string",
+				"defaultValue": "mysql"
+			},
+			"postgres_datasource": {
+				"type": "string",
+				"defaultValue": "postgres"
+			},
+			"database": {
+				"type": "string",
+				"defaultValue": "ikhospital"
+			}
+		},
+		"folder": {
+			"name": "Pipelines IK Hospital/Childs Pipelines"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-11-02T01:42:04Z"
+	},
+	"type": "Microsoft.Synapse/workspaces/pipelines"
+}

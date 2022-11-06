@@ -1,0 +1,11 @@
+{
+	"name": "LS_kvdemo92",
+	"type": "Microsoft.Synapse/workspaces/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureKeyVault",
+		"typeProperties": {
+			"baseUrl": "https://kv-demo-92.vault.azure.net/"
+		}
+	}
+}

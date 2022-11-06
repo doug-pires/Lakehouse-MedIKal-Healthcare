@@ -1,0 +1,36 @@
+{
+	"name": "Source_Dataset_Postgres",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_AzurePostgres",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"table_catalog": {
+				"type": "string",
+				"defaultValue": "placeholder"
+			},
+			"table_name": {
+				"type": "string",
+				"defaultValue": "placeholder"
+			},
+			"table_schema": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzurePostgreSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": {
+				"value": "@dataset().table_schema",
+				"type": "Expression"
+			},
+			"table": {
+				"value": "@dataset().table_name",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

@@ -1,0 +1,121 @@
+{
+	"name": "Functions",
+	"properties": {
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"runAsWorkspaceSystemIdentity": false,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "dc835f35-dd9b-4993-928e-aed7f1f31469"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"synapse_widget": {
+				"version": "0.1"
+			},
+			"enableDebugMode": false,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "python"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"source": [
+					"def get_tables_paths(base_path ):\r\n",
+					"    \"\"\"Return list of items for file path and folder/table.\r\n",
+					"\r\n",
+					"    Args:\r\n",
+					"        base_path (str): Azure path to get data directories (must be authenticated), \r\n",
+					"            formatted abfss://<container>@<storage_account>.dfs.core.windows.net/[root_directory]\r\n",
+					"\r\n",
+					"    Returns:\r\n",
+					"        list[(path, table_name)]: List of tuples, each item has full path in ADLS and the folder name (usually used as table name)\r\n",
+					"    \r\n",
+					"    \"\"\"\r\n",
+					"\r\n",
+					"\r\n",
+					"    table_paths = mssparkutils.fs.ls( base_path )\r\n",
+					"    return [ (file_info.name, file_info.path) for file_info in table_paths ]"
+				]
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"def read_df(path,table_name):\r\n",
+					"\r\n",
+					"    df = (\r\n",
+					"    spark.read.format(\"parquet\")\r\n",
+					"    .load(f\"{path}/{table_name}\")\r\n",
+					")\r\n",
+					"    return df"
+				]
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"def save_df(df, path, partition_str=None, format=\"delta\"):\r\n",
+					"    \"\"\"Save Spark table using format provided (parquet or delta).\r\n",
+					"    \r\n",
+					"    Args:\r\n",
+					"        df (DataFrame): Data to save as Spark table.\r\n",
+					"        table (str): Name of destination table\r\n",
+					"        partition_str (str, optional): Column names used to partition folders as comma delimited string, for example 'colA,colB'. No partitions created if not provided.\r\n",
+					"        format (str, optional): Defaults to 'delta'\r\n",
+					"\r\n",
+					"    Returns:\r\n",
+					"        None\r\n",
+					"\r\n",
+					"    \"\"\"\r\n",
+					"    options = {\r\n",
+					"        \"mergeSchema\": \"true\"\r\n",
+					"    }\r\n",
+					"    writer = df.write.mode(\"overwrite\").options(**options).format(format)\r\n",
+					"\r\n",
+					"\r\n",
+					"    if partition_str:\r\n",
+					"        writer = writer.partitionBy(partition_str)\r\n",
+					"\r\n",
+					"    \r\n",
+					"    writer.save(path)"
+				]
+			}
+		]
+	}
+}

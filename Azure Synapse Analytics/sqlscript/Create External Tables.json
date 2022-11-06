@@ -1,0 +1,17 @@
+{
+	"name": "Create External Tables",
+	"properties": {
+		"content": {
+			"query": "\nUSE IKHOSPITAL_DW\n\n-- Create Masterkey\nCREATE MASTER KEY;\nGO\nSELECT * FROM sys.symmetric_keys;\n\n-- Create Database SCOPE CREDENTIAL Credential_Identity\n\nCREATE DATABASE SCOPED CREDENTIAL CredentialIdentity\nWITH IDENTITY='MANAGED IDENTITY'\nGO\n\n-- SELECT * FROM sys.database_scoped_credentials \n-- Create External File Format\nCREATE EXTERNAL FILE FORMAT ParquetFormat\nWITH ( FORMAT_TYPE = PARQUET )\nGO\n--SELECT * FROM sys.external_file_formats\n\n-- Create External Data Source\nCREATE EXTERNAL DATA SOURCE ExternalSource_IKHospital\nWITH\n  (  \n      LOCATION = 'abfss://gold@stdemo92.dfs.core.windows.net/'\n      ,CREDENTIAL = CredentialIdentity\n  )\n  GO\n-- SELECT * FROM sys.external_data_sources\n-- DROP EXTERNAL DATA SOURCE ExternalSource_IKHospital\n\n-- Create the External Table\nCREATE EXTERNAL TABLE dim_medicine (\n\tid INT,\n\tbrand_name NVARCHAR(2000),\n\tgeneric_name NVARCHAR(2000),\n\tmanufacturer_name NVARCHAR(2000),\n\tproduct_ndc NVARCHAR(2000),\n\tproduct_type NVARCHAR(2000),\n\t[route] NVARCHAR(2000),\n\tsubstance_name NVARCHAR(2000)\n\t)\n\tWITH (\n\tLOCATION = 'ikhospital/dim_medicine/**',\n\tDATA_SOURCE = ExternalSource_IKHospital,\n\tFILE_FORMAT = ParquetFormat\n\t)\nGO\n\n--SELECT TOP 100 * FROM dbo.dim_medicine\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "IKHOSPITAL_DW",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
