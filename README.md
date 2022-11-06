@@ -103,12 +103,12 @@ and security of human and veterinary drugs, biological products, and medical dev
 - ![image](https://user-images.githubusercontent.com/62630272/200187824-35f480fb-95b8-4195-8393-0ed8acbbf270.png)
 - Second I created one Script to be more specific on the name of the EXTERNAL PROVIDERS, DATA SOURCES, and SCOPED CREDENTIAL, which you can use SAS, ACCESS KEYS, or MANAGED IDENTITY.
 - ![image](https://user-images.githubusercontent.com/62630272/200133289-341e05d1-2ce9-4f93-b145-9e109a967ab6.png)
-- To the Power BI Developer read the tables is necessary an user. Then I created one user called *PBI_Reader*, I gave the right credentials, GRANTS to SELECthe DATABASE *IKHOSPITAL_DW* and the user can get/query the tables on Power BI.
-- ![image](https://user-images.githubusercontent.com/62630272/200186665-dd3d1d75-5194-4f29-a505-96dfde95d17f.png)
+- To the Power BI Developer read the tables is necessary an user. Then I created one user called **PBI_Reader**, I gave the right credentials, GRANTS to SELECthe DATABASE *IKHOSPITAL_DW* and the user can get/query the tables on Power BI.
+- ![image](https://user-images.githubusercontent.com/62630272/200188019-0a708ee2-2b65-4cd2-82ba-388e1aceb6f3.png)
 
 ## Analytics Layer
 - Having the user created, we can import our tables to Power BI and start create ANALYTICS on top of that tables.
-- ![image](https://user-images.githubusercontent.com/62630272/200133683-ebd5c75c-f82d-49b4-a427-9badb1c3e53b.png)
+- ![image](https://user-images.githubusercontent.com/62630272/200186665-dd3d1d75-5194-4f29-a505-96dfde95d17f.png)
 - We can use SQL Authentication OR AAD authentication.
 > Keep in mind, the tables are small that's why we choose *import mode*, however if we are discussing a large dataset, always a good idea thinking about other methods, like *Direct Query* with *Incremental refreshs*, since our data is stored as **Delta tables**
 
@@ -136,8 +136,4 @@ and security of human and veterinary drugs, biological products, and medical dev
 # To wrap up the Project
 In this Demo on how to build a Lakehouse, I hope you liked it and you get inspiration to go beyond and discover the benefits to have one of this well-established in your company because this works for all vertical companies.
 In the new paradigm **Lakehouse**, we can elaborate more stuff, such as ==DaaS== ( Data as a Service ) and ==DaaP== Data as a Product. Every company nowadays MUST, NEED to have one of these concepts implemented because they want to be more data-driven and it's up to us Data-Engineers, Data Scientists, Data Analyst, in general, Data Team, to enhance the ==Data Democratization=
-Thanks a ton.
-
-
-
- 
+**Thanks a ton.**
