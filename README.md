@@ -97,19 +97,21 @@ and security of human and veterinary drugs, biological products, and medical dev
 ![image](https://user-images.githubusercontent.com/62630272/200185483-aa53ea1e-71a1-403c-97a9-3a3db45f25b8.png)
 
 
-## Serve Layer
+## Serving Layer
 - The serving layer, the option was SQL Serverless Pool. We can create EXTERNAL TABLES or VIEWS on top of our data on the ADLS Gen2. To serve the data to Power BI, I created the database called *IKHOSPITAL_DW* then we can generate our table on that one.
-- To create the tables, we can use the UI of Synapse, navigate to ADLS Gen2, choose the table, right-click, and CREATE EXTERNAL TABLE. 
+- To create the tables, we can use the UI of Synapse, navigate to ADLS Gen2, choose the table, right-click, and CREATE EXTERNAL TABLE.
+- ![image](https://user-images.githubusercontent.com/62630272/200187824-35f480fb-95b8-4195-8393-0ed8acbbf270.png)
 - Second I created one Script to be more specific on the name of the EXTERNAL PROVIDERS, DATA SOURCES, and SCOPED CREDENTIAL, which you can use SAS, ACCESS KEYS, or MANAGED IDENTITY.
- - ![image](https://user-images.githubusercontent.com/62630272/200133289-341e05d1-2ce9-4f93-b145-9e109a967ab6.png)
+- ![image](https://user-images.githubusercontent.com/62630272/200133289-341e05d1-2ce9-4f93-b145-9e109a967ab6.png)
 - To the Power BI Developer read the tables is necessary an user. Then I created one user called *PBI_Reader*, I gave the right credentials, GRANTS to SELECthe DATABASE *IKHOSPITAL_DW* and the user can get/query the tables on Power BI.
-  - ![image](https://user-images.githubusercontent.com/62630272/200186665-dd3d1d75-5194-4f29-a505-96dfde95d17f.png)
+- ![image](https://user-images.githubusercontent.com/62630272/200186665-dd3d1d75-5194-4f29-a505-96dfde95d17f.png)
 
 ## Analytics Layer
 - Having the user created, we can import our tables to Power BI and start create ANALYTICS on top of that tables.
-  - ![image](https://user-images.githubusercontent.com/62630272/200133683-ebd5c75c-f82d-49b4-a427-9badb1c3e53b.png)
+- ![image](https://user-images.githubusercontent.com/62630272/200133683-ebd5c75c-f82d-49b4-a427-9badb1c3e53b.png)
 - We can use SQL Authentication OR AAD authentication.
 > Keep in mind, the tables are small that's why we choose *import mode*, however if we are discussing a large dataset, always a good idea thinking about other methods, like *Direct Query* with *Incremental refreshs*, since our data is stored as **Delta tables**
+
 ### Power BI Desktop
 - I built one simple report, telling the Overview of the Hospital, we can go further and do other measures.
 ![image](https://user-images.githubusercontent.com/62630272/200185590-cf483999-be5f-4c4c-92b5-58f18bece294.png)
