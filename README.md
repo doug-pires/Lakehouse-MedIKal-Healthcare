@@ -103,7 +103,7 @@ and security of human and veterinary drugs, biological products, and medical dev
 - Second I created one Script to be more specific on the name of the EXTERNAL PROVIDERS, DATA SOURCES, and SCOPED CREDENTIAL, which you can use SAS, ACCESS KEYS, or MANAGED IDENTITY.
  - ![image](https://user-images.githubusercontent.com/62630272/200133289-341e05d1-2ce9-4f93-b145-9e109a967ab6.png)
 - To the Power BI Developer read the tables is necessary an user. Then I created one user called *PBI_Reader*, I gave the right credentials, GRANTS to SELECthe DATABASE *IKHOSPITAL_DW* and the user can get/query the tables on Power BI.
-  - ![image](https://user-images.githubusercontent.com/62630272/200133565-635a55d6-a30a-4cee-a7fc-4c8dc2aed1b2.png)
+  - ![image](https://user-images.githubusercontent.com/62630272/200186665-dd3d1d75-5194-4f29-a505-96dfde95d17f.png)
 
 ## Analytics Layer
 - Having the user created, we can import our tables to Power BI and start create ANALYTICS on top of that tables.
@@ -119,6 +119,23 @@ and security of human and veterinary drugs, biological products, and medical dev
 ![FinalDash](https://user-images.githubusercontent.com/62630272/200186415-7a5d4d9d-6f7d-4ac3-baec-ed7e97949f4d.gif)
 
 > Only for demo purposes, the dashboard is not SO fancy, is a mess I would say, but as you can notice, we can put together data coming from **streaming** and **batch**. The streaming Raw Data is being consolidated together with the raw data with the **batch**, at the same **bronze** container.
+
+---
+###  The Resources on Azure
+ - <img width="450" alt="AllRGS" src="https://user-images.githubusercontent.com/62630272/200186735-f071735f-0b9c-4770-94fa-e204cfdd0e9d.PNG">
+### Stuff we could further do
+- Add Microsoft Purview to take care of data governance, data lineage and so on.
+- Dynamic Data Masking on tables, especially on the Patients and Events where we can have **PII** and **HIPAA**
+- Use Azure Data Share to share the Data
+- Create ready cube on Analysis Services to use as Self-Service BI
+- SCALE easily our project.
+
+--- 
+# To wrap up the Project
+In this Demo on how to build a Lakehouse, I hope you liked it and you get inspiration to go beyond and discover the benefits to have one of this well-established in your company because this works for all vertical companies.
+In the new paradigm **Lakehouse**, we can elaborate more stuff, such as ==DaaS== ( Data as a Service ) and ==DaaP== Data as a Product. Every company nowadays MUST, NEED to have one of these concepts implemented because they want to be more data-driven and it's up to us Data-Engineers, Data Scientists, Data Analyst, in general, Data Team, to enhance the ==Data Democratization=
+Thanks a ton.
+
 
 
  
