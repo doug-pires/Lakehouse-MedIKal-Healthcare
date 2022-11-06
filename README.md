@@ -94,7 +94,8 @@ and security of human and veterinary drugs, biological products, and medical dev
 
 ## Process Streaming
 - Azure Stream Analytics to process and send the data to a Power BI dataset. The demand was to get the distributed medicines on the current day, so the query needs to sum the number of medicines, grouped by NDC and day. The query made was that:
-![image](https://user-images.githubusercontent.com/62630272/200132644-9d552b08-fa39-4337-8618-74fca848ddcd.png)
+![image](https://user-images.githubusercontent.com/62630272/200185483-aa53ea1e-71a1-403c-97a9-3a3db45f25b8.png)
+
 
 ## Serve Layer
 - The serving layer, the option was SQL Serverless Pool. We can create EXTERNAL TABLES or VIEWS on top of our data on the ADLS Gen2. To serve the data to Power BI, I created the database called *IKHOSPITAL_DW* then we can generate our table on that one.
@@ -109,7 +110,15 @@ and security of human and veterinary drugs, biological products, and medical dev
   - ![image](https://user-images.githubusercontent.com/62630272/200133683-ebd5c75c-f82d-49b4-a427-9badb1c3e53b.png)
 - We can use SQL Authentication OR AAD authentication.
 > Keep in mind, the tables are small that's why we choose *import mode*, however if we are discussing a large dataset, always a good idea thinking about other methods, like *Direct Query* with *Incremental refreshs*, since our data is stored as **Delta tables**
+### Power BI Desktop
+- I built one simple report, telling the Overview of the Hospital, we can go further and do other measures.
+![image](https://user-images.githubusercontent.com/62630272/200185590-cf483999-be5f-4c4c-92b5-58f18bece294.png)
+### Power BI Service
+- It's time to publish the report and put together the streaming dataset.
+![image](https://user-images.githubusercontent.com/62630272/200185832-cd268c95-1c83-4f71-9d33-0e965b4cf30d.png)
+![FinalDash](https://user-images.githubusercontent.com/62630272/200186415-7a5d4d9d-6f7d-4ac3-baec-ed7e97949f4d.gif)
 
+> Only for demo purposes, the dashboard is not SO fancy, is a mess I would say, but as you can notice, we can put together data coming from **streaming** and **batch**. The streaming Raw Data is being consolidated together with the raw data with the **batch**, at the same **bronze** container.
 
 
  
