@@ -1,0 +1,66 @@
+{
+	"name": "Master Pipeline IK Hospital",
+	"properties": {
+		"activities": [
+			{
+				"name": "Extract and Load tables to Bronze",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Ingest tables to Bronze Layer",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Bronze to Silver",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Extract and Load tables to Bronze",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Bronze to Silver",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Silver to Gold",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Bronze to Silver",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Gold tables",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "Pipelines IK Hospital"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-11-02T01:42:17Z"
+	},
+	"type": "Microsoft.Synapse/workspaces/pipelines"
+}

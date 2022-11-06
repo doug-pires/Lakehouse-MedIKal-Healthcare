@@ -1,0 +1,38 @@
+{
+	"name": "Dataset_Sink_Parquet",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "syn-demo-92-WorkspaceDefaultStorage",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"table_schema": {
+				"type": "string",
+				"defaultValue": "placeholder"
+			},
+			"table_name": {
+				"type": "string",
+				"defaultValue": "placeholder"
+			},
+			"datasource": {
+				"type": "string",
+				"defaultValue": "placeholder"
+			}
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": {
+					"value": "@concat(dataset().datasource,'/',dataset().table_schema,'/',dataset().table_name)",
+					"type": "Expression"
+				},
+				"fileSystem": "bronze"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

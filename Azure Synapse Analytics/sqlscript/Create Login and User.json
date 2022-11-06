@@ -1,0 +1,17 @@
+{
+	"name": "Create Login and User",
+	"properties": {
+		"content": {
+			"query": "-- Create Login\nCREATE LOGIN PBI_Reader WITH PASSWORD = 'KIPerformance@123'\n    SELECT * FROM sys.sql_logins\n    WHERE  is_disabled = 'False'\n\n-- Create User\nUSE IKHOSPITAL_DW\nCREATE USER PBI_Reader FROM LOGIN PBI_Reader\nGO\n\n\n-- If the External Tables was CREATED using CREDENTIAL, we need to Grant Access to the Credential to the USER created.\n    GRANT REFERENCES ON DATABASE SCOPED CREDENTIAL::CredentialIdentity TO PBI_Reader;\n-- Check the Credentials using T-SQL SELECT * FROM sys.database_scoped_credentials \n\n-- GRANT SELECT on the Database \nGRANT SELECT ON DATABASE::IKHOSPITAL_DW TO PBI_Reader;  \nGO  \n\n-- OR \n\n-- Add user to role db_datareader to Read the Tables to the user.\n-- db_datareader\nALTER ROLE db_datareader ADD MEMBER PBI_Reader;\nGO\n\n\n-- System views\n-- SELECT * FROM sys.database_role_members \n-- SELECT * FROM sys.database_principals WHERE NAME = 'PBI_Reader'\n\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "IKHOSPITAL_DW",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

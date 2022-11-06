@@ -1,0 +1,29 @@
+{
+	"name": "Source_Dataset_MySql",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_AzureMysql",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"table_schema": {
+				"type": "string",
+				"defaultValue": "placeholder"
+			},
+			"table_name": {
+				"type": "string",
+				"defaultValue": "placeholder"
+			}
+		},
+		"annotations": [],
+		"type": "AzureMySqlTable",
+		"schema": [],
+		"typeProperties": {
+			"tableName": {
+				"value": "@dataset().table_name",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

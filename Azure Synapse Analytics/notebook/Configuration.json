@@ -1,0 +1,98 @@
+{
+	"name": "Configuration",
+	"properties": {
+		"folder": {
+			"name": ".config"
+		},
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"runAsWorkspaceSystemIdentity": false,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "37fc1e75-fd67-4d5b-a2fa-617849a32f6b"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"enableDebugMode": false,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "python"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "markdown",
+				"metadata": {
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"# Instantiate the Base paths to the Containers"
+				]
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"from pyspark.sql.types import *\r\n",
+					"import pyspark.sql.functions as F\r\n",
+					"import os\r\n",
+					"from notebookutils import mssparkutils\r\n",
+					"\r\n",
+					"# Primary storage info\r\n",
+					"account_name = 'stdemo92'\r\n",
+					"bronze_base_path = f'abfss://bronze@{account_name}.dfs.core.windows.net/'\r\n",
+					"silver_base_path = f'abfss://silver@{account_name}.dfs.core.windows.net/'\r\n",
+					"gold_base_path = f'abfss://gold@{account_name}.dfs.core.windows.net/'\r\n",
+					"\r\n",
+					"\r\n",
+					"# The Landing structure is datasource/schema/tables\r\n",
+					"# Could be partioned by DATE\r\n",
+					"datasources = [\"mysql\",\"postgres\"]\r\n",
+					"\r\n",
+					"# Databse in common\r\n",
+					"database = \"ikhospital\"\r\n",
+					"\r\n",
+					"# Path to my Bronze Tables\r\n",
+					"bronze_path_mysql = os.path.join(bronze_base_path,datasources[0],database)\r\n",
+					"bronze_path_postgres = os.path.join(bronze_base_path,datasources[1],database)\r\n",
+					"\r\n",
+					"\r\n",
+					"\r\n",
+					"# Path to the Silver Container, following the Structure Container/database/Delta Tables\r\n",
+					"silver_path = os.path.join(silver_base_path,database)\r\n",
+					"\r\n",
+					"\r\n",
+					"# Path to the Gold Container, following the Structure Container/datasource/database/Delta Tables\r\n",
+					"gold_path = os.path.join(gold_base_path,database)\r\n",
+					"\r\n",
+					"\r\n",
+					"print(\"Base path:\")\r\n",
+					"print(\"Base Bronze path :\",\"bronze_base_path\" ,bronze_base_path )\r\n",
+					"print(\"Base Silver path :\", \"silver_base_path\" ,silver_base_path )\r\n",
+					"\r\n",
+					"print(f\"Bronze Path to Tables hosted on {datasources[0]}:\", \"bronze_path_mysql\",bronze_path_mysql )\r\n",
+					"print(f\"Bronze Path to Tables hosted on {datasources[1]}:\", \"bronze_path_postgres\",bronze_path_postgres )\r\n",
+					"print(f\"Silver Path to save the Delta Tables\", \"silver_path\",silver_path )\r\n",
+					"print(f\"Gold Path to save the Delta Tables\",\"gold_path\", gold_path )"
+				],
+				"execution_count": null
+			}
+		]
+	}
+}
