@@ -1,0 +1,31 @@
+ID,ID_DOCTOR,AREA,NAME,ID_SHIFT
+1,1,Allergist,"Robert Junior",1
+2,2,Allergist,"Sullivan Colt",2
+3,3,Allergist,"Jon Doe",3
+4,4,Cardiologist,"Jane Stephen",1
+5,5,Cardiologist,"Marcia Ribeiro",2
+6,6,Cardiologist,"Zoey Colleman",3
+7,7,Dermatologist,"Francis Gistalt",1
+8,8,Dermatologist,"Arshad Renno",2
+9,9,Dermatologist,"Daniel Guttenbeck",3
+10,10,Oncologist,"Roberto Gonzaga",1
+11,11,Oncologist,"David Tior",2
+12,12,Oncologist,"Daniel Martinez",3
+13,13,Ophthalmologist,"Pablo Moreira",1
+14,14,Ophthalmologist,"Igor Albuquerque",2
+15,15,Ophthalmologist,"Peter Astut",3
+16,16,General,"Melinna Alves",1
+17,17,General,"Catarina Cussolim",2
+18,18,General,"Alberto Mezzani",3
+19,19,Gynaecologist,"Mark Constantine",1
+20,20,Gynaecologist,"Dakota Dunlap",2
+21,21,Gynaecologist,"Wendy Ray",3
+22,22,Obstetrician,"Tammy White",1
+23,23,Obstetrician,"Laura Johnson",2
+24,24,Obstetrician,"Nathan Patel",3
+25,25,Urologist,"Lucas Piantolli",1
+26,26,Urologist,"Brad Felgucci Jr",2
+27,27,Urologist,"Nuno Goncalves",3
+28,28,Pediatrician,"Barion Dunno",1
+29,29,Pediatrician,"Dick Harper",2
+30,30,Pediatrician,"Jane Bartilda",3
